@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Hellavator · the daily Terraria dive</title>
+  <meta name="description" content="Seven Terraria prompts a day, same for everyone. Obvious answers barely move the hellavator. Rare ones drop you through the world." />
+  <meta name="theme-color" content="#0b0f1e" />
+  <meta property="og:title" content="Hellavator · the daily Terraria dive" />
+  <meta property="og:description" content="Seven prompts a day. Rare answers drop you deeper. How far down can you get?" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%23976b4b'/%3E%3Crect width='16' height='4' fill='%233fae46'/%3E%3Crect x='6' width='4' height='16' fill='%231b1410'/%3E%3Crect x='7' width='1' height='16' fill='%23b08850'/%3E%3Crect y='13' width='16' height='3' fill='%23ff6a00'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600;700&family=VT323&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <canvas id="world" aria-hidden="true"></canvas>
+
+  <!-- ===== HUD ===== -->
+  <header class="hud">
+    <div class="hud-left">
+      <div class="depth-meter" id="depthMeter">
+        <div class="dm-main"><span id="dmFeet">0</span>' <span id="dmLayer">Surface</span></div>
+        <div class="dm-next" id="dmNext">120' to Underground</div>
+      </div>
+    </div>
+    <button class="logo" id="logo" aria-label="Hellavator title screen">HELLAVATOR</button>
+    <nav class="hud-right">
+      <button class="icon-btn" data-modal="howto" aria-label="How to play">?</button>
+      <button class="icon-btn" data-modal="stats" aria-label="Stats">▤</button>
+    </nav>
+  </header>
+
+  <main id="app">
+    <!-- ===== TITLE ===== -->
+    <section class="screen" id="screen-title">
+      <div class="title">
+        <p class="kicker">THE DAILY TERRARIA DIVE</p>
+        <p class="title-date" id="titleDate"></p>
+        <nav class="menu">
+          <button class="menu-item big" id="btnStart">Start Dig</button>
+          <button class="menu-item" id="btnArchive">View Archive</button>
+          <button class="menu-item small" id="btnUnlimited">Unlimited</button>
+        </nav>
+        <div class="title-status" id="titleStatus"></div>
+      </div>
+    </section>
+
+    <!-- ===== ROUND ===== -->
+    <section class="screen" id="screen-round" hidden>
+      <div class="round">
+        <div class="round-meta">
+          <span class="chip" id="rCat">Bosses</span>
+          <span class="round-no" id="rNo">1 / 7</span>
+          <span class="round-score"><span id="rScore">0</span> pts</span>
+        </div>
+
+        <h2 class="prompt" id="rPrompt">Name a boss</h2>
+
+        <div id="rPlay">
+          <form id="guessForm" autocomplete="off">
+            <input id="guess" type="text" placeholder="type an answer…" maxlength="60"
+                   autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="go" aria-label="Your answer" />
+            <button class="btn primary" type="submit">DIG</button>
+          </form>
+          <div class="timer" id="rTimerWrap"><div class="timer-fill" id="rTimer"></div></div>
+          <div class="timer-secs"><span id="rSecs">25</span>s</div>
+          <div class="feedback" id="rFeedback" aria-live="polite"></div>
+        </div>
+
+        <div class="reveal" id="rReveal" hidden>
+          <div class="reveal-tier" id="rvTier">Pink</div>
+          <div class="reveal-answer" id="rvAnswer">Deerclops</div>
+          <div class="reveal-pts" id="rvPts">+60 pts · ▼ 120'</div>
+          <div class="reveal-blurb" id="rvBlurb"></div>
+          <button class="btn primary" id="btnNext">NEXT ▸</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== RESULTS ===== -->
+    <section class="screen" id="screen-results" hidden>
+      <div class="panel results">
+        <p class="kicker" id="resKicker">DAILY DIVE #1</p>
+        <h1 class="res-depth"><span id="resFeet">0</span>'</h1>
+        <p class="res-layer" id="resLayer">Surface</p>
+        <p class="res-flavor" id="resFlavor"></p>
+        <div class="res-score"><b id="resScore">0</b> / 700 pts</div>
+        <div class="res-hearts" id="resHearts"></div>
+        <div class="btn-row center">
+          <button class="btn primary" id="btnShare">SHARE</button>
+          <button class="btn" id="btnAgain" hidden>DIVE AGAIN</button>
+          <button class="btn" data-go="title">TITLE</button>
+        </div>
+        <p class="next-dive" id="nextDive"></p>
+      </div>
+
+      <div class="panel key">
+        <h2>Answer key</h2>
+        <p class="key-hint">Tap a prompt, then pick a rarity.</p>
+        <div id="keyList"></div>
+      </div>
+    </section>
+
+    <!-- ===== ARCHIVE ===== -->
+    <section class="screen" id="screen-archive" hidden>
+      <div class="panel archive">
+        <div class="archive-head">
+          <h2>Archive</h2>
+          <button class="link-btn" data-go="title">◂ back</button>
+        </div>
+        <p class="key-hint">Every past dive. Archive runs don't count toward your streak.</p>
+        <ol class="archive-list" id="archiveList"></ol>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    Unofficial fan project. Not affiliated with Re-Logic.<span class="long"> Terraria is a trademark of Re-Logic. · Rarities are curated estimates.</span>
+  </footer>
+
+  <!-- ===== MODALS ===== -->
+  <div class="modal" id="modal-howto" hidden>
+    <div class="panel modal-card">
+      <button class="modal-x" data-close aria-label="Close">×</button>
+      <h2>How to play</h2>
+      <ul class="rules">
+        <li>Seven prompts a day, same for everyone. New dive at midnight Eastern.</li>
+        <li><b>25 seconds</b> per prompt. Wrong guesses cost nothing but time, so keep swinging.</li>
+        <li>Your first <b>correct</b> answer locks in. The rarer it is, the further the hellavator drops.</li>
+        <li>Typos get a "did you mean…" you can confirm with Enter.</li>
+        <li>Anything from base-game Terraria counts, on any platform, past or present. No mods.</li>
+      </ul>
+      <h3>Rarity</h3>
+      <div class="legend" id="howtoLegend"></div>
+      <h3>The shaft</h3>
+      <ol class="bands" id="howtoBands"></ol>
+    </div>
+  </div>
+
+  <div class="modal" id="modal-stats" hidden>
+    <div class="panel modal-card">
+      <button class="modal-x" data-close aria-label="Close">×</button>
+      <h2>Your dives</h2>
+      <div class="stat-grid" id="statGrid"></div>
+      <h3>Deepest biome reached</h3>
+      <p id="statDeepest">Surface</p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/names.js"></script>
+  <script src="js/match.js"></script>
+  <script src="js/world.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
