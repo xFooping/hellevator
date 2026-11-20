@@ -246,11 +246,11 @@ window.PROMPTS.push(
       white: ["Bone", "Bone Key", "Bone Pickaxe", "Bone Sword", "Bone Wings"],
       gray: ["Bone Arrow", "Bone Glove", "Bone Javelin", "Bone Throwing Knife", "Bone Torch", "Bone Wand", "Bonefish"],
       green: ["Bone Feather", "Bone Helm", "Bone Rattle", "Bone Serpent Kite", "Bone Warp", "Bone Welder", "Eater's Bone", "Eye Bone"],
-      pink: ["Bone Bathtub", "Bone Bed", "Bone Block", "Bone Block Wall", "Bone Bookcase", "Bone Campfire", "Bone Candelabra", "Bone Chair", "Bone Chandelier", "Bone Chest", "Bone Clock", "Bone Door", "Bone Dresser", "Bone Lamp", "Bone Lantern", "Bone Piano", "Bone Platform", "Bone Sink", "Bone Sofa", "Bone Table", "Bone Toilet", "Bone Work Bench", "Trapped Bone Chest"],
+      pink: ["Bone Bathtub", "Bone Bed", "Bone Block Wall", "Bone Bookcase", "Bone Campfire", "Bone Candelabra", "Bone Chair", "Bone Chandelier", "Bone Chest", "Bone Clock", "Bone Door", "Bone Dresser", "Bone Lamp", "Bone Lantern", "Bone Piano", "Bone Platform", "Bone Sink", "Bone Sofa", "Bone Table", "Bone Toilet", "Bone Work Bench", "Trapped Bone Chest"],
       red: ["Angry Bones Banner", "Blue Armored Bones Banner", "Bone Biter Banner", "Bone Lee Banner", "Bone Serpent Banner", "Chicken Bones' Pants", "Chicken Bones' Robe", "Chicken Bones' Vest", "Chicken Bones' Visor", "Chicken Bones' Wings", "Doctor Bones Banner", "Hell Armored Bones Banner", "Marching Bones Banner", "Rusty Armored Bones Banner"],
       rainbow: ["Bone Skeleton Statue"]
     },
-    reject: [["Skull|Skeletron Hand|Necro Helmet|Femur", "Very bony. No \"Bone\" in the name, though."]],
+    reject: [["Bone Block", "That one's in the game files, but you can't actually get it."], ["Skull|Skeletron Hand|Necro Helmet|Femur", "Very bony. No \"Bone\" in the name, though."]],
     rulings: "Mechanical: every item in the game data containing 'bone' (58), incl. 'Bones' banners and Chicken Bones' dev set."
   },
   {
@@ -259,12 +259,12 @@ window.PROMPTS.push(
     answers: {
       white: ["Fallen Star", "Star Cannon", "Star Cloak", "Star Wrath", "Starfury"],
       gray: ["Band of Starpower", "Morning Star", "Star Veil", "Star in a Bottle", "Stardust Dragon Staff", "Stardust Fragment", "Starfish", "Super Star Shooter"],
-      green: ["Celestial Starboard", "Fallen Starfish", "Shrub Star", "Star", "Star Anise", "Star Cloud", "Star Fruit", "Star Hairpin", "Star Princess Crown", "Star Princess Dress", "Star Topper 1", "Star Topper 2", "Star Topper 3", "Starcrash", "Stardrop", "Stardust Axe", "Stardust Cell Staff", "Stardust Chainsaw", "Stardust Drill", "Stardust Dye", "Stardust Hamaxe", "Stardust Hammer", "Stardust Helmet", "Stardust Leggings", "Stardust Pickaxe", "Stardust Plate", "Stardust Wings", "Starlight", "Starry Night"],
+      green: ["Celestial Starboard", "Fallen Starfish", "Shrub Star", "Star", "Star Anise", "Star Cloud", "Star Fruit", "Star Hairpin", "Star Princess Crown", "Star Princess Dress", "Star Topper 1", "Star Topper 2", "Star Topper 3", "Starcrash", "Stardrop", "Stardust Cell Staff", "Stardust Drill", "Stardust Dye", "Stardust Hamaxe", "Stardust Helmet", "Stardust Leggings", "Stardust Pickaxe", "Stardust Plate", "Stardust Wings", "Starlight", "Starry Night"],
       pink: ["Blue Starry Block", "Blue Starry Wall", "Fallen Star Bathtub", "Fallen Star Bed", "Fallen Star Block", "Fallen Star Bookcase", "Fallen Star Candelabra", "Fallen Star Candle", "Fallen Star Chair", "Fallen Star Chandelier", "Fallen Star Chest", "Fallen Star Clock", "Fallen Star Door", "Fallen Star Dresser", "Fallen Star Lamp", "Fallen Star Lantern", "Fallen Star Piano", "Fallen Star Platform", "Fallen Star Sink", "Fallen Star Sofa", "Fallen Star Table", "Fallen Star Toilet", "Fallen Star Wall", "Fallen Star Work Bench", "Gold Starry Block", "Gold Starry Wall", "Star Royale Brick", "Star Royale Brick Wall", "Star Statue", "Stardust Bathtub", "Stardust Bed", "Stardust Bookcase", "Stardust Brick", "Stardust Brick Wall", "Stardust Candelabra", "Stardust Candle", "Stardust Chair", "Stardust Chandelier", "Stardust Chest", "Stardust Clock", "Stardust Door", "Stardust Dresser", "Stardust Fragment Block", "Stardust Lamp", "Stardust Lantern", "Stardust Monolith", "Stardust Piano", "Stardust Platform", "Stardust Sink", "Stardust Sofa", "Stardust Table", "Stardust Toilet", "Stardust Work Bench", "Starlit Heaven Wallpaper", "Stars Wallpaper", "Trapped Fallen Star Chest", "Trapped Stardust Chest"],
       red: ["Firestarter's Skirt", "Firestarter's Sweater", "Ghostar's Garb", "Ghostar's Infinity Eight", "Ghostar's Tights", "Mini Star Cell Banner", "Star Cell Banner", "Stargazer Banner", "The Firestarter"],
       rainbow: ["Ghostar's Soul Jar"]
     },
-    reject: [["Meteorite|Celestial Sigil|Moon Charm", "Space-y, but no \"Star\" in the name."]],
+    reject: [["Stardust Axe|Stardust Chainsaw|Stardust Hammer", "That one's in the game files, but you can't actually get it."], ["Meteorite|Celestial Sigil|Moon Charm", "Space-y, but no \"Star\" in the name."]],
     rulings: "Mechanical: every item in the game data containing 'star' (109). Letter-for-letter counts, so Ghostar's and Firestarter items are valid sneaky answers."
   },
   {

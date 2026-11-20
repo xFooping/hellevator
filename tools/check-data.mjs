@@ -21,6 +21,8 @@ const { TIERS, PROMPTS, GAME_NAMES } = sandbox.window;
 const game = JSON.parse(readFileSync(join(root, "tools/game-items.json"), "utf8"));
 const itemSet = new Set([...game.items, ...game.legacy]);
 const buffSet = new Set(JSON.parse(readFileSync(join(root, "tools/game-buffs.json"), "utf8")));
+// items that exist in the game files but can't be obtained (wiki Unobtainable features)
+const unobtainable = new Set(JSON.parse(readFileSync(join(root, "tools/unobtainable.json"), "utf8")).names);
 
 let errors = 0, warnings = 0;
 const err = (m) => { errors++; console.log("  ✗ " + m); };
@@ -34,6 +36,7 @@ for (const p of PROMPTS) {
   for (const c of idx.collisions) err(`"${c.a}" and "${c.b}" both normalize to "${c.key}"`);
   const exempt = new Set([...(p.legacy || []), ...(p.nonItem || [])]);
   for (const e of idx.entries) {
+    if (unobtainable.has(e.name) && !(p.legacy || []).includes(e.name)) err(`answer "${e.name}" is unobtainable in the game`);
     if (exempt.has(e.name)) continue;
     if (p.kind === "item" && !itemSet.has(e.name)) err(`answer "${e.name}" is not an in-game item name`);
     if (p.kind === "buff" && !buffSet.has(e.name)) err(`answer "${e.name}" is not an in-game buff name`);
@@ -164,7 +167,65 @@ const CASES = [
   ["seeds", "get fixed boi", "Zenith"],
   ["debuffs", "on fire", "On Fire!"],
   ["debuffs", "venom", "Acid Venom"],
-  ["debuffs", "well fed", "reject"]
+  ["debuffs", "well fed", "reject"],
+  // batch 2
+  ["golem-drops", "mobius strip", "Mobius Strip"],
+  ["golem-drops", "lihzahrd power cell", "reject"],
+  ["moonlord-drops", "zenith", "reject"],
+  ["moonlord-drops", "sdmg", "S.D.M.G."],
+  ["duke-drops", "kraken", "Kraken"],
+  ["queen-bee-drops", "beeswax", "Bee Wax"],
+  ["queen-bee-drops", "bees knees", "The Bee's Knees"],
+  ["arms-dealer", "forest pylon", "Forest Pylon"],
+  ["arms-dealer", "universal pylon", "reject"],
+  ["witch-doctor", "flask of venom", "reject"],
+  ["wizard-shop", "wizards hat", "Wizard's Hat"],
+  ["wizard-shop", "wizard hat", "reject"],
+  ["statues", "angel", "Angel Statue"],
+  ["statues", "statue", "reject"],
+  ["underworld-enemies", "hungry", "The Hungry"],
+  ["underworld-enemies", "arch demon", "Arch Demon"],
+  ["underworld-enemies", "lavafly", "reject"],
+  ["dungeon-enemies", "armored bones", "reject"],
+  ["dungeon-enemies", "dragon skull", "Dragon Skull"],
+  ["eclipse-enemies", "dr man fly", "Dr. Man Fly"],
+  ["eclipse-enemies", "possessed", "The Possessed"],
+  ["moon-event-enemies", "santa nk1", "Santa-NK1"],
+  ["invasion-enemies", "goblin scout", "reject"],
+  ["invasion-enemies", "pirates curse", "Pirate's Curse"],
+  ["armor-sets", "shadow", "Shadow Armor"],
+  ["armor-sets", "hallow armor", "Hallowed Armor"],
+  ["armor-sets", "spectral", "Spectral Armor"],
+  ["armor-sets", "spectre armor", "Spectre Armor"],
+  ["info-accessories", "shellphone (spawn)", "Shellphone"],
+  ["info-accessories", "rek 3000", "R.E.K. 3000"],
+  ["hammers", "breaker", "The Breaker"],
+  ["hammers", "breaker blade", "reject"],
+  ["hammers", "nebula hammer", "reject"],
+  ["hammers", "pwnhammer", "Pwnhammer"],
+  ["bullets", "silver", "Silver Bullet"],
+  ["bullets", "empty bullet", "reject"],
+  ["arrows", "jesters arrow", "Jester's Arrow"],
+  ["arrows", "magic quiver", "reject"],
+  ["bars", "iron", "Iron Bar"],
+  ["fish", "goldfish", "Goldfish"],
+  ["fish", "shrimp", "reject"],
+  ["fish", "silent fish", "reject"],
+  ["fish", "captain tunabeard", "Cap'n Tunabeard"],
+  ["moon-items", "moonman and company", "Moonman & Company"],
+  ["moon-items", "celestial sigil", "reject"],
+  ["shadow-items", "shadow hammer banner", "Shadow Hammer Banner"],
+  ["ice-items", "office chair", "Office Chair"],
+  ["ice-items", "apprentices hat", "Apprentice's Hat"],
+  ["ice-items", "apple pie slice", "real"],
+  ["expert-items", "treasure bag (golem)", "Treasure Bag"],
+  ["expert-items", "guardian golem", "reject"],
+  ["swords", "fiery greatsword", "Volcano"],
+  ["swords", "cat sword", "reject"],
+  ["swords", "swordfish", "reject"],
+  ["swords", "true copper shortsword", "True Copper Shortsword"],
+  ["star-items", "stardust hammer", "reject"],
+  ["bone-items", "bone block", "reject"]
 ];
 
 const ctx = Match.makeContext(TIERS, PROMPTS, GAME_NAMES);
