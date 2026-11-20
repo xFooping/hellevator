@@ -309,6 +309,7 @@ b { color: var(--gold); font-weight: normal; }
   .icon-btn { width: 32px; height: 32px; font-size: 18px; }
   .panel { padding: 16px; }
   .menu-item.big { font-size: 36px; }
+  .title { margin-bottom: 30vh; padding-top: 10px; }
   .res-depth { font-size: 56px; }
   .foot { font-size: 11px; }
   .foot .long { display: none; }

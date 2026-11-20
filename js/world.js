@@ -9,7 +9,8 @@
   const TILE = 16;            // css px per tile (art is drawn at 16x16 css px)
   const PT_TO_TILE = 0.5;
   const CHUNK = 32;
-  const MAX_VARIANTS = 4;     // dirt.png, dirt_2.png, dirt_3.png, dirt_4.png
+  const MAX_VARIANTS = 4;
+  const ZOOM = 2;            // on-screen pixels per art pixel (2 = chunky, Terraria-like)     // dirt.png, dirt_2.png, dirt_3.png, dirt_4.png
 
   const BANDS = [
     { min: 0,   key: "surface",  name: "Surface",            flavor: "You barely left the house." },
@@ -231,9 +232,9 @@
 
   function resize() {
     dpr = Math.min(window.devicePixelRatio || 1, 2);
-    W = window.innerWidth; H = window.innerHeight;
-    canvas.width = W * dpr; canvas.height = H * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    W = window.innerWidth / ZOOM; H = window.innerHeight / ZOOM;
+    canvas.width = window.innerWidth * dpr; canvas.height = window.innerHeight * dpr;
+    ctx.setTransform(dpr * ZOOM, 0, 0, dpr * ZOOM, 0, 0);
     ctx.imageSmoothingEnabled = false;
     cache.clear();
   }

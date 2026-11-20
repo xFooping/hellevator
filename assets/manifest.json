@@ -1,5 +1,13 @@
 {
-  "tiles": {},
+  "tiles": {
+    "dirt": [
+      "dirt.png",
+      "dirt_2.png"
+    ],
+    "grass": [
+      "grass.png"
+    ]
+  },
   "sprites": {},
   "backgrounds": {}
 }
