@@ -27,7 +27,7 @@ Optional variants: `dirt_2.png`, `dirt_3.png`, `dirt_4.png`. Each tile picks one
 | `tree_trunk` `tree_leaves` | surface trees, one tile each |
 
 ## Sprites: `assets/sprites/`
-- `player.png`: standing player, any size, drawn at 2× and centered on the rope with feet on the ground.
+- `player.png`: standing player at the same pixel scale as the tiles (Terraria's player is about 20×42 on a 16 px tile grid), centered on the rope with feet on the ground.
 - `player_fall.png`: optional falling pose.
 
 ## Backgrounds: `assets/backgrounds/`

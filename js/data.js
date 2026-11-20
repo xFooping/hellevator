@@ -1,5 +1,5 @@
 /* =========================================================================
-   HELLAVATOR — prompt bank
+   HELLEVATOR — prompt bank
    -------------------------------------------------------------------------
    SCOPE: anything in base-game Terraria on any platform, past or present
    (Desktop/Console/Mobile 1.4.5, plus old-gen console & 3DS exclusives).
@@ -43,7 +43,7 @@ window.PROMPTS = [
   /* ---------------------------------------------------------------- */
   {
     id: "bosses", cat: "Bosses", kind: "npc",
-    text: "Name a boss (event bosses count)",
+    text: "Name a boss",
     answers: {
       white: ["Eye of Cthulhu|EoC", "Moon Lord|ML", "Skeletron", "Wall of Flesh|WoF", "King Slime|KS|Slime King"],
       gray: ["Plantera", "Golem", "Duke Fishron|Duke|Fishron", "Eater of Worlds|EoW", "Brain of Cthulhu|BoC", "Queen Bee|QB|Bee Queen"],
@@ -63,7 +63,7 @@ window.PROMPTS = [
   /* ---------------------------------------------------------------- */
   {
     id: "town-npcs", cat: "NPCs", kind: "npc",
-    text: "Name a town NPC (town pets and town slimes count)",
+    text: "Name a town NPC",
     answers: {
       white: ["Guide", "Merchant", "Nurse", "Demolitionist|Demo", "Arms Dealer"],
       gray: ["Dryad", "Goblin Tinkerer|Goblin|Tinkerer|Bound Goblin", "Wizard|Bound Wizard", "Mechanic|Bound Mechanic", "Clothier", "Angler|Sleeping Angler", "Painter"],
@@ -114,7 +114,7 @@ window.PROMPTS = [
   /* ---------------------------------------------------------------- */
   {
     id: "wings", cat: "Accessories", kind: "item", suffix: "wings",
-    text: "Name a pair of wings (anything that goes in the wing slot)",
+    text: "Name a pair of wings",
     answers: {
       white: ["Angel Wings", "Demon Wings", "Fairy Wings", "Fishron Wings", "Empress Wings", "Solar Wings", "Stardust Wings"],
       gray: ["Leaf Wings", "Frozen Wings", "Flame Wings", "Harpy Wings", "Bat Wings", "Bee Wings", "Butterfly Wings", "Jetpack", "Hoverboard", "Vortex Booster", "Nebula Mantle"],
@@ -152,7 +152,7 @@ window.PROMPTS = [
   /* ---------------------------------------------------------------- */
   {
     id: "food", cat: "Food", kind: "item",
-    text: "Name a food (drinks count)",
+    text: "Name a food",
     answers: {
       white: ["Apple", "Banana", "Cooked Fish", "Burger", "Pizza", "Bacon", "Golden Delight", "Steak", "Hotdog|Hot Dog"],
       gray: ["Pumpkin Pie", "Sashimi", "Bowl of Soup|Soup", "Cooked Shrimp", "Seafood Dinner", "Monster Lasagna|Lasagna", "Grub Soup", "Coffee", "Ice Cream", "Spaghetti", "Milkshake", "BBQ Ribs|Ribs|Barbecue Ribs", "Marshmallow", "Cooked Marshmallow"],
@@ -218,11 +218,11 @@ window.PROMPTS = [
     answers: {
       white: ["Bunny", "Bird", "Squirrel", "Butterfly", "Worm", "Frog", "Duck|White Duck", "Goldfish"],
       gray: ["Gold Bunny", "Truffle Worm", "Firefly", "Snail", "Mouse", "Penguin"],
-      green: ["Scorpion", "Grasshopper", "Glowing Snail", "Lightning Bug", "Owl", "Seagull", "Turtle", "Dragonfly", "Ladybug", "Cardinal", "Blue Jay", "Red Squirrel", "Fairy", "Gold Bird", "Gold Frog", "Gold Worm", "Gold Mouse", "Gold Squirrel", "Gold Grasshopper", "Gold Butterfly", "Seahorse", "Explosive Bunny", "Rat", "Black Scorpion", "Prismatic Lacewing", "Mallard Duck", "Pupfish", "Grebe", "Water Strider", "Jungle Turtle", "Monarch Butterfly", "Sea Turtle", "Dolphin", "Pufferfish"],
-      pink: ["Grubby", "Sluggy", "Buggy", "Maggot", "Lavafly", "Magma Snail", "Hell Butterfly", "Toucan", "Scarlet Macaw", "Blue Macaw", "Macaw", "Yellow Cockatiel", "Gray Cockatiel|Grey Cockatiel", "Cockatiel", "Enchanted Nightcrawler", "Stinkbug", "Blue Fairy", "Green Fairy", "Pink Fairy",
+      green: ["Scorpion", "Grasshopper", "Glowing Snail", "Lightning Bug", "Owl", "Seagull", "Turtle", "Ladybug", "Cardinal", "Blue Jay", "Red Squirrel", "Gold Bird", "Gold Frog", "Gold Worm", "Gold Mouse", "Gold Squirrel", "Gold Grasshopper", "Gold Butterfly", "Seahorse", "Explosive Bunny", "Rat", "Black Scorpion", "Prismatic Lacewing", "Mallard Duck", "Pupfish", "Grebe", "Water Strider", "Jungle Turtle", "Monarch Butterfly", "Sea Turtle", "Dolphin", "Pufferfish"],
+      pink: ["Grubby", "Sluggy", "Buggy", "Maggot", "Lavafly", "Magma Snail", "Hell Butterfly", "Toucan", "Scarlet Macaw", "Blue Macaw", "Yellow Cockatiel", "Gray Cockatiel|Grey Cockatiel", "Enchanted Nightcrawler", "Stinkbug", "Blue Fairy", "Green Fairy", "Pink Fairy",
              "Julia Butterfly", "Purple Emperor Butterfly", "Red Admiral Butterfly", "Sulphur Butterfly", "Tree Nymph Butterfly", "Ulysses Butterfly", "Zebra Swallowtail Butterfly",
              "Black Dragonfly", "Blue Dragonfly", "Green Dragonfly", "Orange Dragonfly", "Red Dragonfly", "Yellow Dragonfly",
-             "Gem Bunny", "Gem Squirrel", "Amethyst Bunny", "Topaz Bunny", "Sapphire Bunny", "Emerald Bunny", "Ruby Bunny", "Diamond Bunny", "Amber Bunny",
+             "Amethyst Bunny", "Topaz Bunny", "Sapphire Bunny", "Emerald Bunny", "Ruby Bunny", "Diamond Bunny", "Amber Bunny",
              "Amethyst Squirrel", "Topaz Squirrel", "Sapphire Squirrel", "Emerald Squirrel", "Ruby Squirrel", "Diamond Squirrel", "Amber Squirrel"],
       red: ["Gold Goldfish", "Gold Seahorse", "Gold Water Strider", "Gold Dragonfly", "Gold Ladybug", "Mystic Frog"],
       rainbow: ["Faeling"]
@@ -230,9 +230,10 @@ window.PROMPTS = [
     reject: [
       ["Corrupt Bunny|Vicious Bunny|Crimson Bunny|Corrupt Goldfish|Vicious Goldfish|Crimson Goldfish|Corrupt Penguin|Vicious Penguin|Crimson Penguin",
        "That's what a critter turns into during a Blood Moon. It's an enemy now."],
-      ["Town Cat|Town Dog|Town Bunny", "That's a town pet, not a critter."]
+      ["Town Cat|Town Dog|Town Bunny", "That's a town pet, not a critter."],
+      ["Dragonfly|Fairy|Macaw|Cockatiel|Gem Bunny|Gem Squirrel", "The game only names specific kinds of those. Be more specific."]
     ],
-    rulings: "96 critters from the wiki Critters page (incl. every butterfly, dragonfly, fairy, gem and gold variant). Generic names (Butterfly, Dragonfly, Fairy, Macaw, Cockatiel, Gem Bunny) accepted since the game uses them as the base NPC name. Dolphin, Mystic Frog and Sea Turtle can't be netted but are still critters."
+    rulings: "96 critters from the wiki Critters page (incl. every butterfly, dragonfly, fairy, gem and gold variant). Generic names only count when the game itself uses them as an NPC name: Butterfly (NPC 356), Duck, Goldfish do; Dragonfly, Fairy, Macaw, Cockatiel, Gem Bunny/Squirrel don't (wiki NPC IDs page), so those get a 'be more specific' nudge. Dolphin, Mystic Frog and Sea Turtle can't be netted but are still critters."
   },
 
   /* ---------------------------------------------------------------- */

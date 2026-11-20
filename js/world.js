@@ -1,5 +1,5 @@
 /* =========================================================================
-   HELLAVATOR — the shaft
+   HELLEVATOR — the shaft
    Procedural world. Every block/wall/decoration has a NAME (see TILE_KEYS).
    If assets/tiles/<name>.png exists it is drawn; otherwise a placeholder
    color is used. Drop art in and it shows up on the next page load.
@@ -215,7 +215,7 @@
   const SCOL = { h: "#5b3a1e", s: "#e8b48c", e: "#1b1b2a", t: "#2d9c8c", b: "#3a2a1c", p: "#3b4a8a" };
   function drawPlayer(g, cx, footY, falling) {
     const im = (falling && sprites.playerFall) || sprites.player;
-    if (im) { const w = im.width * 2, h = im.height * 2; g.drawImage(im, Math.round(cx - w / 2), Math.round(footY - h), w, h); return; }
+    if (im) { const w = im.width, h = im.height; /* same pixel scale as tiles */ g.drawImage(im, Math.round(cx - w / 2), Math.round(footY - h), w, h); return; }
     const rows = falling ? SPR_FALL : SPR, px = 2, x0 = Math.round(cx - 10), y0 = Math.round(footY - 32);
     for (let j = 0; j < rows.length; j++) for (let i = 0; i < rows[j].length; i++) {
       const c = rows[j][i]; if (c === ".") continue;

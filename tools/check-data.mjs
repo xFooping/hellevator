@@ -2,7 +2,7 @@
 //  1. every answer in an "item" prompt is a real in-game item name (exact spelling)
 //  2. no two different answers/rejects collide after normalization
 //  3. regression cases (things that MUST / MUST NOT count) still behave
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import vm from "node:vm";
@@ -14,10 +14,13 @@ const Match = require(join(root, "js/match.js"));
 
 const sandbox = { window: {} };
 vm.runInNewContext(readFileSync(join(root, "js/data.js"), "utf8"), sandbox);
+for (const f of readdirSync(join(root, "js")).filter((f) => /^prompts-.*\.js$/.test(f)).sort())
+  vm.runInNewContext(readFileSync(join(root, "js", f), "utf8"), sandbox);
 vm.runInNewContext(readFileSync(join(root, "js/names.js"), "utf8"), sandbox);
 const { TIERS, PROMPTS, GAME_NAMES } = sandbox.window;
 const game = JSON.parse(readFileSync(join(root, "tools/game-items.json"), "utf8"));
 const itemSet = new Set([...game.items, ...game.legacy]);
+const buffSet = new Set(JSON.parse(readFileSync(join(root, "tools/game-buffs.json"), "utf8")));
 
 let errors = 0, warnings = 0;
 const err = (m) => { errors++; console.log("  ✗ " + m); };
@@ -29,12 +32,15 @@ for (const p of PROMPTS) {
   if (ids.has(p.id)) err(`duplicate id ${p.id}`); ids.add(p.id);
   const idx = Match.buildIndex(p, TIERS);
   for (const c of idx.collisions) err(`"${c.a}" and "${c.b}" both normalize to "${c.key}"`);
-  if (p.kind === "item") {
-    for (const e of idx.entries) {
-      if (!itemSet.has(e.name)) err(`answer "${e.name}" is not an in-game item name`);
-      else if ((p.legacy || []).includes(e.name) !== game.legacy.includes(e.name)) warn(`legacy flag mismatch for "${e.name}"`);
-    }
+  const exempt = new Set([...(p.legacy || []), ...(p.nonItem || [])]);
+  for (const e of idx.entries) {
+    if (exempt.has(e.name)) continue;
+    if (p.kind === "item" && !itemSet.has(e.name)) err(`answer "${e.name}" is not an in-game item name`);
+    if (p.kind === "buff" && !buffSet.has(e.name)) err(`answer "${e.name}" is not an in-game buff name`);
+    // pair: "Mount/Pet name|Summon item|..." -> at least one name must be a real item
+    if (p.kind === "pair" && !e.names.some((n) => itemSet.has(n))) err(`pair "${e.names.join("|")}" has no real item name`);
   }
+  for (const n of exempt) if (!idx.entries.some((e) => e.name === n)) warn(`legacy/nonItem "${n}" isn't an answer`);
   const total = idx.entries.length;
   const byTier = TIERS.map((t) => `${t.key}:${(p.answers[t.key] || []).length}`).join(" ");
   if (total < 10) warn(`only ${total} answers`);
@@ -101,6 +107,10 @@ const CASES = [
   ["critters", "julia butterfly", "Julia Butterfly"],
   ["critters", "vicious bunny", "reject"],
   ["critters", "town cat", "reject"],
+  ["critters", "dragonfly", "reject"],
+  ["critters", "butterfly", "Butterfly"],
+  ["critters", "black dragonfly", "Black Dragonfly"],
+  ["bosses", "spazmatism", "Spazmatism"],
   ["slime-items", "king slime treasure bag", "Treasure Bag (King Slime)"],
   ["slime-items", "slimy saddle", "reject"],
   ["slime-items", "slime banner", "Slime Banner"],
@@ -110,7 +120,51 @@ const CASES = [
   ["quest-fish", "capn tunabeard", "Cap'n Tunabeard"],
   ["quest-fish", "bass", "reject"],
   ["quest-fish", "goldfish", "reject"],
-  ["quest-fish", "zzzz", null]
+  ["quest-fish", "zzzz", null],
+  // batch 1
+  ["whips", "vulgar display of flower", "Vulgar Display of Flower"],
+  ["flails", "morning star", "reject"],
+  ["flails", "ball of hurt", "Ball O' Hurt"],
+  ["spears", "tonbogiri", "Tonbogiri"],
+  ["bows", "bees knees", "The Bee's Knees"],
+  ["bows", "hallowed repeater", "reject"],
+  ["guns", "sdmg", "S.D.M.G."],
+  ["guns", "star cannon", "reject"],
+  ["minions", "terraprisma", "Terraprisma"],
+  ["minions", "queen spider staff", "reject"],
+  ["boss-summons", "pumpkin moon medallion", "Pumpkin Moon Medallion"],
+  ["boss-summons", "goblin battle standard", "reject"],
+  ["boss-summons", "suspicious looking egg", "Suspicious Looking Egg"],
+  ["merchant", "pylon", "reject"],
+  ["merchant", "jungle pylon", "Jungle Pylon"],
+  ["plantera-drops", "the axe", "The Axe"],
+  ["wof-drops", "badgers hat", "Badger's Hat"],
+  ["stations", "heavy work bench", "Heavy Assembler"],
+  ["stations", "teapot", "Teapot"],
+  ["stations", "tea kettle", null],
+  ["stations", "shimmer", "Shimmer"],
+  ["mounts", "slimy saddle", "Slime"],
+  ["mounts", "terra fart kart", "Terra Fart Kart"],
+  ["mounts", "digtoise", "Digtoise"],
+  ["pets", "eye bone", "Chester"],
+  ["pets", "dirtiest block", "The Dirtiest Block"],
+  ["pets", "town cat", "reject"],
+  ["crates", "hematic crate", "Hematic Crate"],
+  ["dyes", "dye vat", "reject"],
+  ["dyes", "life hair dye", "Life Hair Dye"],
+  ["pickaxes", "shroomite digging claw", "Shroomite Digging Claw"],
+  ["pickaxes", "drax", "Drax"],
+  ["bone-items", "chicken bones' wings", "Chicken Bones' Wings"],
+  ["star-items", "ghostar's soul jar", "Ghostar's Soul Jar"],
+  ["slimes", "shadow slime", "Shadow Slime"],
+  ["slimes", "slime", "reject"],
+  ["biomes", "heart shrine", "Heart Shrine"],
+  ["events", "coin rain", "Coin Rain"],
+  ["seeds", "05162020", "Drunk World"],
+  ["seeds", "get fixed boi", "Zenith"],
+  ["debuffs", "on fire", "On Fire!"],
+  ["debuffs", "venom", "Acid Venom"],
+  ["debuffs", "well fed", "reject"]
 ];
 
 const ctx = Match.makeContext(TIERS, PROMPTS, GAME_NAMES);

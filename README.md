@@ -1,6 +1,6 @@
-# Hellavator
+# Hellevator
 
-Daily rare-answer Terraria trivia. Seven prompts, 25 seconds each. The rarer your correct answer, the further the hellavator drops: Surface → Underground → Caverns → Glowing Mushroom → Underground Jungle → Underground Hallow → Underworld.
+Daily rare-answer Terraria trivia. Seven prompts, 25 seconds each. The rarer your correct answer, the further the hellevator drops: Surface → Underground → Caverns → Glowing Mushroom → Underground Jungle → Underground Hallow → Underworld.
 
 Plain HTML/CSS/JS. No build step, no backend. Progress lives in `localStorage`.
 
@@ -34,7 +34,7 @@ Any static host: Cloudflare Pages, Netlify (drag the folder in), GitHub Pages.
 ## How answers are judged
 1. Exact match (ignoring case, accents, punctuation, spaces, leading "the", trailing "s"; a prompt's `suffix` word is optional, e.g. "Ironskin" works for potions) → scored.
 2. A known near-miss in the prompt's `reject` list → the player sees why it doesn't count.
-3. Any other real Terraria item → "is real, but it doesn't fit."
+3. Anything else → "Not on the list." (Real items that don't fit look identical to nonsense on purpose.)
 4. Within 1 typo (5+ letters) or 2 (8+ letters) of anything in the whole dictionary → "Did you mean X?". Enter or YES confirms. Because suggestions come from all 6,000+ names, a suggestion never tells you whether something is a valid answer.
 
 ## Adding prompts (keeps past days stable)

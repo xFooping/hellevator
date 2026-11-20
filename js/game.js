@@ -1,5 +1,5 @@
 /* =========================================================================
-   HELLAVATOR — game logic
+   HELLEVATOR — game logic
    ========================================================================= */
 (function () {
   "use strict";
@@ -9,8 +9,8 @@
     ROUND_MS: 25000,
     START_DATE: "2026-11-19",          // Dive #1 = launch day. Set before deploying.
     TZ: "America/New_York",            // daily reset: midnight Eastern
-    STORE_KEY: "hellavator:v2",
-    SITE_URL: "hellavator.io",
+    STORE_KEY: "hellevator:v2",
+    SITE_URL: "hellevator.io",
     MAX: 700
   };
   const MISS_HEART = "🖤";
@@ -172,8 +172,7 @@
     pending = null;
     if (r.type === "hit") return finishRound(r.entry, "hit", guess);
     if (r.type === "reject") setFeedback(`<b>${esc(r.name)}</b>: ${esc(r.msg)}`, "real");
-    else if (r.type === "real") setFeedback(`<b>${esc(r.name)}</b> is real, but it doesn't fit.`, "real");
-    else setFeedback("Not on the list. Keep digging.", "bad");
+    else setFeedback("Not on the list. Keep digging.", "bad");   // misses and real-but-wrong items look the same
     shake();
   }
 
@@ -280,7 +279,7 @@
   function shareText() {
     const total = sum(run.rec.rounds), band = World.bandFor(total);
     const url = /^https?:/.test(location.protocol) && !DEV ? location.host : CFG.SITE_URL;
-    const head = run.mode === "unlimited" ? "Hellavator ∞ ⛏️" : `Hellavator #${run.number} ⛏️`;
+    const head = run.mode === "unlimited" ? "Hellevator ∞ ⛏️" : `Hellevator #${run.number} ⛏️`;
     return `${head}\n${total} pts · ${World.feetFor(total)}' ${band.name}\n${hearts(run.rec.rounds)}\n${url}`;
   }
   async function share() {
@@ -398,5 +397,5 @@
   renderTitle();
   if (!localStorage.getItem(CFG.STORE_KEY + ":seen")) { openModal("howto"); try { localStorage.setItem(CFG.STORE_KEY + ":seen", "1"); } catch (e) {} }
 
-  window.Hellavator = { idsForDate, today, store: () => store, judge: (id, g) => window.Match.judge(BY_ID[id], g, MATCH) };
+  window.Hellevator = { idsForDate, today, store: () => store, judge: (id, g) => window.Match.judge(BY_ID[id], g, MATCH) };
 })();

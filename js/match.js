@@ -1,5 +1,5 @@
 /* =========================================================================
-   HELLAVATOR — answer matching (shared by the browser and tools/check-data)
+   HELLEVATOR — answer matching (shared by the browser and tools/check-data)
    ========================================================================= */
 (function (root) {
   "use strict";
