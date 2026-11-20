@@ -261,18 +261,37 @@
       };
     });
   }
+  // Krillion-style list: tabs for All + each rarity, one answer per row.
   function renderKeyBody(body, r) {
     const p = BY_ID[r.id];
-    let sel = r.tier || TIERS.find((t) => (p.answers[t.key] || []).length).key;
+    const rows = [];
+    TIERS.forEach((t, rank) => (p.answers[t.key] || []).forEach((raw) => {
+      const [name, ...alias] = raw.split("|");
+      rows.push({ name, alias, tier: t.key, rank });
+    }));
+    const byName = (a, b) => a.name.localeCompare(b.name);
+    let sel = r.tier || "all", q = "";
     const draw = () => {
-      const tabs = TIERS.map((t) => {
-        const n = (p.answers[t.key] || []).length;
-        return `<button type="button" class="tier-chip t-${t.key} ${t.key === sel ? "on" : ""}" data-t="${t.key}" ${n ? "" : "disabled"}><span class="name">${t.name}</span><span class="count">${n}</span></button>`;
-      }).join("");
-      const list = (p.answers[sel] || []).map(primary).map((n) => `<span class="${n === r.answer ? "you" : ""}">${esc(n)}</span>`).join("");
-      body.innerHTML = `<div class="tier-tabs">${tabs}</div><div class="answers">${list}</div>`;
+      const tabs = [`<button type="button" class="tier-chip all ${sel === "all" ? "on" : ""}" data-t="all"><span class="name">All</span><span class="count">${rows.length}</span></button>`]
+        .concat(TIERS.map((t) => {
+          const n = rows.filter((x) => x.tier === t.key).length;
+          return `<button type="button" class="tier-chip t-${t.key} ${t.key === sel ? "on" : ""}" data-t="${t.key}" ${n ? "" : "disabled"}><span class="name">${t.name}</span><span class="count">${n}</span></button>`;
+        })).join("");
+      let list = sel === "all" ? rows.slice().sort((a, b) => b.rank - a.rank || byName(a, b)) : rows.filter((x) => x.tier === sel).sort(byName);
+      const needle = window.Match.normalize(q);
+      if (needle) list = list.filter((x) => [x.name, ...x.alias].some((n) => window.Match.normalize(n).includes(needle)));
+      const items = list.map((x) => {
+        const t = TIER[x.tier], you = x.name === r.answer;
+        const alias = x.alias.length ? `<span class="alias">${esc(x.alias.slice(0, 2).join(", "))}</span>` : "";
+        return `<li class="${you ? "you" : ""}"><span>${esc(x.name)}${alias}${you ? '<span class="badge">YOU</span>' : ""}</span><span class="tag t-${t.key}"><span class="name">${sel === "all" ? t.name + " · " : ""}${t.pts}</span></span></li>`;
+      }).join("") || `<li class="empty">No matches.</li>`;
+      body.querySelector(".tier-tabs").innerHTML = tabs;
+      body.querySelector(".ans-list").innerHTML = items;
       body.querySelectorAll(".tier-tabs button").forEach((b) => (b.onclick = () => { sel = b.dataset.t; draw(); }));
     };
+    body.innerHTML = `<div class="tier-tabs"></div>${rows.length > 20 ? '<input class="key-search" type="search" placeholder="filter answers…" aria-label="Filter answers">' : ""}<ul class="ans-list"></ul>`;
+    const search = body.querySelector(".key-search");
+    if (search) search.oninput = () => { q = search.value; draw(); };
     draw();
   }
 
@@ -387,6 +406,7 @@
     document.querySelectorAll("[data-go=title]").forEach((b) => (b.onclick = goTitle));
     document.querySelectorAll("[data-modal]").forEach((b) => (b.onclick = () => openModal(b.dataset.modal)));
     document.querySelectorAll(".modal").forEach((m) => m.addEventListener("click", (e) => { if (e.target === m || e.target.hasAttribute("data-close")) m.hidden = true; }));
+    window.addEventListener("scroll", () => document.querySelector(".hud").classList.toggle("solid", window.scrollY > 8), { passive: true });
     document.addEventListener("keydown", (e) => { if (e.key === "Escape") document.querySelectorAll(".modal").forEach((m) => (m.hidden = true)); });
   }
 

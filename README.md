@@ -28,7 +28,7 @@ Any static host: Cloudflare Pages, Netlify (drag the folder in), GitHub Pages.
 | `js/names.js` | every Terraria item name (generated). Powers "real, but doesn't fit" and typo correction that can't leak answers |
 | `js/world.js` | the shaft renderer + art loader |
 | `js/game.js` | screens, timer, daily schedule, archive, results, answer key, stats |
-| `assets/` | drop-in art, see `assets/README.md` |
+| `assets/` | drop-in art (see `assets/README.md`) + self-hosted Pixelify Sans font (OFL) |
 | `tools/` | `check-data.mjs`, `build-names.mjs`, `build-art-manifest.mjs`, `game-items.json` (source data) |
 
 ## How answers are judged
