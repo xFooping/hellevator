@@ -297,7 +297,9 @@
 
   function shareText() {
     const total = sum(run.rec.rounds), band = World.bandFor(total);
-    const url = /^https?:/.test(location.protocol) && !DEV ? location.host : CFG.SITE_URL;
+    const url = /^https?:/.test(location.protocol) && !DEV
+      ? (location.host + location.pathname.replace(/index\.html$/, "")).replace(/\/$/, "")   // e.g. xfooping.github.io/hellevator
+      : CFG.SITE_URL;
     const head = run.mode === "unlimited" ? "Hellevator ∞ ⛏️" : `Hellevator #${run.number} ⛏️`;
     return `${head}\n${total} pts · ${World.feetFor(total)}' ${band.name}\n${hearts(run.rec.rounds)}\n${url}`;
   }
